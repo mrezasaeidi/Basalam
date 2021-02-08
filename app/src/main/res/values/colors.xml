@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="material_grey_primary">#ffffff</color>
+    <color name="material_grey_dark">#c2c2c2</color>
+
+    <color name="material_night_primary">#1B2936</color>
+    <color name="material_night_dark">#15202b</color>
+    <color name="material_night_light">#304561</color>
+
+    <color name="grey_100">#f5f5f5</color>
+    <color name="grey_200">#eeeeee</color>
+    <color name="grey_300">#e0e0e0</color>
+    <color name="grey_400">#bdbdbd</color>
+    <color name="grey_500">#9E9E9E</color>
+    <color name="grey_600">#757575</color>
+    <color name="grey_800">#424242</color>
+
+    <color name="material_primary">#db3755</color>
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
