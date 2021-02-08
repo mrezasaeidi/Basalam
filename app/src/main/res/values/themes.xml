@@ -27,7 +27,7 @@
         <item name="android:windowNoTitle">true</item>
     </style>
 
-    <style name="RootActivityTheme" parent="BaseActivityTheme.NoActionBar">
+    <style name="RootActivityTheme" parent="BaseActivityTheme">
         <item name="android:windowIsTranslucent">false</item>
     </style>
 </resources>

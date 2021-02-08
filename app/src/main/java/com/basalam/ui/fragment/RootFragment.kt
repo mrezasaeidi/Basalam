@@ -9,7 +9,6 @@ import com.basalam.R
 
 class RootFragment : BaseFragment() {
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
