@@ -12,4 +12,11 @@ class Style {
             return typedValue.data
         }
     }
+
+    enum class FontStyle(val resId: Int) {
+        Small(R.style.FontStyle_Small), Normal(R.style.FontStyle_Normal), Large(R.style.FontStyle_Large), Xlarge(
+            R.style.FontStyle_XLarge
+        );
+
+    }
 }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="toolbarTitleColor" format="reference" />
+    <declare-styleable name="FontStyle">
+        <attr name="text_size_nano" format="dimension" />
+        <attr name="text_size_ultralight" format="dimension" />
+        <attr name="text_size_light" format="dimension" />
+        <attr name="text_size_regular" format="dimension" />
+        <attr name="text_size_medium" format="dimension" />
+        <attr name="text_size_bold" format="dimension" />
+    </declare-styleable>
+</resources>

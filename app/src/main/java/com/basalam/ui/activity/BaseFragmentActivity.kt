@@ -1,9 +1,11 @@
 package com.basalam.ui.activity
 
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.basalam.R
 import com.basalam.ui.fragment.BaseFragment
@@ -16,7 +18,15 @@ open class BaseFragmentActivity : BaseActivity() {
 
         // Configure ActionBar
         supportActionBar?.apply {
-            elevation = 0f
+            setBackgroundDrawable(
+                ColorDrawable(
+                    ContextCompat.getColor(
+                        this@BaseFragmentActivity,
+                        R.color.material_background
+                    )
+                )
+            )
+            elevation = 16f
             setDisplayShowHomeEnabled(false)
             setDisplayHomeAsUpEnabled(true)
             setDisplayShowTitleEnabled(true)
