@@ -6,23 +6,23 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.CompoundButton
-import android.widget.RadioGroup
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.graphics.drawable.DrawerArrowDrawable
-import androidx.appcompat.widget.AppCompatImageView
-import androidx.appcompat.widget.AppCompatTextView
-import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
 import com.basalam.Application
 import com.basalam.R
-import com.basalam.Style
+import com.basalam.ui.utils.Style
 import com.basalam.ui.fragment.RootFragment
 import com.basalam.ui.utils.Intents
 import com.basalam.ui.utils.LayoutUtil
 import com.google.android.material.navigation.NavigationView
+import kotlinx.android.synthetic.main.activity_root_layout.*
+import kotlinx.android.synthetic.main.dialog_select_font_size.view.*
+import kotlinx.android.synthetic.main.dialog_select_lang.view.*
+import kotlinx.android.synthetic.main.nav_header_root.view.*
+import kotlinx.android.synthetic.main.root_activity.*
 
 class RootActivity : BaseFragmentActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -37,7 +37,6 @@ class RootActivity : BaseFragmentActivity(), NavigationView.OnNavigationItemSele
         setContentView(R.layout.root_activity)
 
         // Configure Toolbar
-        val toolbar: Toolbar? = findViewById(R.id.toolbar)
         if (toolbar != null) {
             setSupportActionBar(toolbar)
         }
@@ -46,10 +45,9 @@ class RootActivity : BaseFragmentActivity(), NavigationView.OnNavigationItemSele
             .replace(R.id.root, RootFragment())
             .commitNow()
 
-        val drawer: DrawerLayout = findViewById(R.id.drawer_layout)
         ActionBarDrawerToggle(
             this,
-            drawer,
+            drawerLayout,
             toolbar,
             R.string.nav_drawer_open,
             R.string.nav_drawer_close
@@ -58,28 +56,27 @@ class RootActivity : BaseFragmentActivity(), NavigationView.OnNavigationItemSele
             setHomeAsUpIndicator(R.drawable.ic_drawer)
             drawerArrowDrawable = DrawerArrowDrawable(this@RootActivity)
             toolbarNavigationClickListener = View.OnClickListener {
-                drawer.openDrawer(
+                drawerLayout.openDrawer(
                     GravityCompat.START
                 )
             }
-            drawer.addDrawerListener(this)
+            drawerLayout.addDrawerListener(this)
             syncState()
         }
-        val navigationView: NavigationView = findViewById(R.id.nav_view)
         navMenu = navigationView.menu
         navigationView.getChildAt(0).isVerticalScrollBarEnabled = false
         (navMenu!!.findItem(R.id.nav_night).actionView as CompoundButton).isChecked =
             Style.inNightMode(this)
 
         navigationView.getHeaderView(0).apply {
-            findViewById<AppCompatImageView>(R.id.navHeaderAvatar)
+            navHeaderAvatar
                 .setImageDrawable(
                     AppCompatResources.getDrawable(
                         this@RootActivity,
                         R.drawable.ic_person_grey
                     )
                 )
-            findViewById<AppCompatTextView>(R.id.navHeaderName).setText(R.string.user_name)
+            navHeaderName.setText(R.string.user_name)
         }
 
         navMenu!!.findItem(R.id.nav_version).title =
@@ -101,10 +98,9 @@ class RootActivity : BaseFragmentActivity(), NavigationView.OnNavigationItemSele
     }
 
     override fun onBackPressed() {
-        val drawer: DrawerLayout = findViewById(R.id.drawer_layout)
         val rootFragment = supportFragmentManager.findFragmentById(R.id.root) as RootFragment?
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START)
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START)
         } else if (rootFragment != null) {
             if (rootFragment.canGoBack()) {
                 super.onBackPressed()
@@ -136,7 +132,7 @@ class RootActivity : BaseFragmentActivity(), NavigationView.OnNavigationItemSele
             }
         }
         if (close) {
-            findViewById<DrawerLayout>(R.id.drawer_layout).closeDrawer(GravityCompat.START)
+            drawerLayout.closeDrawer(GravityCompat.START)
         }
         return true
     }
@@ -152,15 +148,14 @@ class RootActivity : BaseFragmentActivity(), NavigationView.OnNavigationItemSele
         val builder = AlertDialog.Builder(this)
         builder.setView(dialogView)
         builder.setTitle(R.string.dialog_select_font_size_title)
-        val fontSize = dialogView.findViewById<RadioGroup>(R.id.fontSize)
         when (Application.currentFontScaleStyle) {
-            R.style.FontStyle_Small -> fontSize.check(R.id.small)
-            R.style.FontStyle_Normal -> fontSize.check(R.id.normal)
-            R.style.FontStyle_Large -> fontSize.check(R.id.large)
-            R.style.FontStyle_XLarge -> fontSize.check(R.id.xlarge)
+            R.style.FontStyle_Small -> dialogView.fontSize.check(R.id.small)
+            R.style.FontStyle_Normal -> dialogView.fontSize.check(R.id.normal)
+            R.style.FontStyle_Large -> dialogView.fontSize.check(R.id.large)
+            R.style.FontStyle_XLarge -> dialogView.fontSize.check(R.id.xlarge)
         }
         val dialog = builder.create()
-        fontSize.setOnCheckedChangeListener { _, id: Int ->
+        dialogView.fontSize.setOnCheckedChangeListener { _, id: Int ->
             when (id) {
                 R.id.small -> {
                     Application.setFontSize(
@@ -197,13 +192,12 @@ class RootActivity : BaseFragmentActivity(), NavigationView.OnNavigationItemSele
         val builder = AlertDialog.Builder(this)
         builder.setView(dialogView)
         builder.setTitle(R.string.dialog_select_lang_title)
-        val lang = dialogView.findViewById<RadioGroup>(R.id.language)
         when (LayoutUtil.getLanguage()) {
-            LayoutUtil.Lang.FA -> lang.check(R.id.fa)
-            LayoutUtil.Lang.EN -> lang.check(R.id.en)
+            LayoutUtil.Lang.FA -> dialogView.language.check(R.id.fa)
+            LayoutUtil.Lang.EN -> dialogView.language.check(R.id.en)
         }
         val dialog = builder.create()
-        lang.setOnCheckedChangeListener { _, id: Int ->
+        dialogView.language.setOnCheckedChangeListener { _, id: Int ->
             if (id == R.id.en) {
                 Application.setLocale(applicationContext, "en", "US", true)
             } else if (id == R.id.fa) {

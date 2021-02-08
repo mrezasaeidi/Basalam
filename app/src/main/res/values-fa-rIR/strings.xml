@@ -13,4 +13,7 @@
     <string name="font_size_x_large">بسیار بزرگ</string>
     <string name="dialog_select_font_size_title">انتخاب اندازه متن</string>
     <string name="dialog_select_lang_title">انتخاب زبان</string>
+    <string name="main_search_empty">چیزی پیدا نشد</string>
+    <string name="main_search_hint">چیزی بنویسید تا جستجو کنیم</string>
+    <string name="search">جستجو</string>
 </resources>

@@ -17,6 +17,7 @@ import com.basalam.ui.utils.Constants.CONFIG_PREF_LANG
 import com.basalam.ui.utils.Constants.CONFIG_PREF_NAME
 import com.basalam.ui.utils.Constants.CONFIG_PREF_NIGHT_MODE
 import com.basalam.ui.utils.LayoutUtil
+import com.basalam.ui.utils.Style
 import java.util.*
 import kotlin.system.exitProcess
 

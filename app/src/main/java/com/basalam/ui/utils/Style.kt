@@ -1,8 +1,9 @@
-package com.basalam
+package com.basalam.ui.utils
 
 import android.content.Context
 import android.content.res.Configuration
 import android.util.TypedValue
+import com.basalam.R
 
 object Style {
 

@@ -13,7 +13,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import com.basalam.Application
 import com.basalam.R
-import com.basalam.Style
+import com.basalam.ui.utils.Style
 import com.jude.swipbackhelper.SwipeBackHelper
 
 open class BaseActivity : AppCompatActivity() {
