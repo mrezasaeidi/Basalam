@@ -10,6 +10,7 @@ import com.basalam.ui.fragment.BaseFragment
 import com.basalam.utils.KeyboardHelper
 
 open class BaseFragmentActivity : BaseActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -33,7 +34,6 @@ open class BaseFragmentActivity : BaseActivity() {
         }.let {
             setContentView(it)
         }
-
     }
 
     fun showFragment(fragment: Fragment?, addToBackStack: Boolean) {

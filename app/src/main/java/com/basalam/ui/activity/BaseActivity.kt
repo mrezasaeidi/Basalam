@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.ActionBar
@@ -28,10 +27,13 @@ open class BaseActivity : AppCompatActivity() {
             }
         }
 
-    override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         Application.setLocale(this)
-        super.onCreate(savedInstanceState, persistentState)
+        super.onCreate(savedInstanceState)
         setTheme()
+        SwipeBackHelper.onCreate(this)
+        SwipeBackHelper.getCurrentPage(this).setSwipeSensitivity(0.2f)
+        SwipeBackHelper.getCurrentPage(this).setSwipeBackEnable(canSwipe)
         window.setBackgroundDrawable(
             ColorDrawable(
                 if (canSwipe) Color.TRANSPARENT else Style.getBackgroundColor(this)
@@ -49,9 +51,6 @@ open class BaseActivity : AppCompatActivity() {
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-        SwipeBackHelper.onCreate(this)
-        SwipeBackHelper.getCurrentPage(this).setSwipeSensitivity(0.2f)
-        SwipeBackHelper.getCurrentPage(this).setSwipeBackEnable(canSwipe)
         SwipeBackHelper.onPostCreate(this)
     }
 
@@ -63,6 +62,21 @@ open class BaseActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         SwipeBackHelper.onDestroy(this)
+    }
+
+    // Toolbar
+    protected open fun setToolbar(text: Int, enableBack: Boolean) {
+        if (supportActionBar == null) {
+            throw RuntimeException("Action bar is not set!")
+        }
+        supportActionBar!!.setDisplayShowCustomEnabled(false)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        if (enableBack) {
+            supportActionBar!!.setDisplayShowHomeEnabled(true)
+        }
+        supportActionBar!!.setDisplayShowTitleEnabled(true)
+        supportActionBar!!.setDisplayUseLogoEnabled(false)
+        supportActionBar!!.setTitle(text)
     }
 
     fun setToolbar(view: View, params: ActionBar.LayoutParams?, enableBack: Boolean) {
