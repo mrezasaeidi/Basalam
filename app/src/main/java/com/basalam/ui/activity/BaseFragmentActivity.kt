@@ -9,7 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.basalam.R
 import com.basalam.ui.fragment.BaseFragment
-import com.basalam.utils.KeyboardHelper
+import com.basalam.ui.utils.KeyboardHelper
 
 open class BaseFragmentActivity : BaseActivity() {
 

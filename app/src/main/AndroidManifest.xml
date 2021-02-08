@@ -12,10 +12,10 @@
         android:theme="@style/BaseActivityTheme">
 
         <activity
-            android:name="com.basalam.ui.activity.RootActivity"
+            android:name="com.basalam.ui.activity.SplashActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:launchMode="singleTop"
-            android:theme="@style/RootActivityTheme"
+            android:theme="@style/BaseActivityTheme.NoActionBar"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,6 +23,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ui.activity.RootActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:theme="@style/RootActivityTheme"
+            android:windowSoftInputMode="adjustResize" />
+
+        <activity
+            android:name=".ui.activity.RouterActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:theme="@style/BaseActivityTheme"
+            android:windowSoftInputMode="adjustResize" />
     </application>
 
 </manifest>

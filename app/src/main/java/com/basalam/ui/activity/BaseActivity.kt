@@ -9,7 +9,6 @@ import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import com.basalam.Application
@@ -40,9 +39,6 @@ open class BaseActivity : AppCompatActivity() {
             )
         )
 
-        //tint back icon
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_back)
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             window.statusBarColor = ContextCompat.getColor(this, R.color.md_grey_500)
@@ -69,26 +65,30 @@ open class BaseActivity : AppCompatActivity() {
         if (supportActionBar == null) {
             throw RuntimeException("Action bar is not set!")
         }
-        supportActionBar!!.setDisplayShowCustomEnabled(false)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        if (enableBack) {
-            supportActionBar!!.setDisplayShowHomeEnabled(true)
+        supportActionBar!!.apply {
+            setDisplayShowCustomEnabled(false)
+            setDisplayHomeAsUpEnabled(true)
+            if (enableBack) {
+                setDisplayShowHomeEnabled(true)
+            }
+            setDisplayShowTitleEnabled(true)
+            setDisplayUseLogoEnabled(false)
+            setTitle(text)
         }
-        supportActionBar!!.setDisplayShowTitleEnabled(true)
-        supportActionBar!!.setDisplayUseLogoEnabled(false)
-        supportActionBar!!.setTitle(text)
     }
 
     fun setToolbar(view: View, params: ActionBar.LayoutParams?, enableBack: Boolean) {
         if (supportActionBar == null) {
             throw RuntimeException("Action bar is not set!")
         }
-        val actionBar = supportActionBar
-        actionBar!!.setDisplayShowCustomEnabled(true)
-        actionBar.setDisplayHomeAsUpEnabled(false)
-        actionBar.setDisplayShowTitleEnabled(false)
-        actionBar.setDisplayUseLogoEnabled(false)
-        actionBar.setDisplayShowHomeEnabled(false)
+        val actionBar = supportActionBar!!.apply {
+            setDisplayShowCustomEnabled(true)
+            setDisplayHomeAsUpEnabled(false)
+            setDisplayShowTitleEnabled(false)
+            setDisplayUseLogoEnabled(false)
+            setDisplayShowHomeEnabled(false)
+        }
+
         if (enableBack) {
             // Loading Toolbar header views
             actionBar.setCustomView(
@@ -100,13 +100,9 @@ open class BaseActivity : AppCompatActivity() {
             )
             val parent = view.parent as Toolbar
             parent.setContentInsetsAbsolute(0, 0)
-            val back: AppCompatImageView = view.findViewById(R.id.backBtn)
-            val backContainer = view.findViewById<View>(R.id.backBtnContainer)
-            back.setImageResource(R.drawable.ic_back)
-            backContainer.setOnClickListener { onBackPressed() }
+            view.findViewById<View>(R.id.backBtnContainer).setOnClickListener { onBackPressed() }
         } else {
-            val parent = view.parent as Toolbar
-            parent.setContentInsetsAbsolute(0, 0)
+            (view.parent as Toolbar).setContentInsetsAbsolute(0, 0)
             if (params != null) {
                 actionBar.setCustomView(view, params)
             } else {
@@ -121,7 +117,7 @@ open class BaseActivity : AppCompatActivity() {
         }
     }
 
-    fun setTheme() {
+    private fun setTheme() {
         if (supportActionBar != null) {
             setTheme(R.style.BaseActivityTheme)
         } else {

@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">Basalam</string>
+    <string name="user_name">Mohammd Reza Saeidi</string>
+    <string name="shopping_bag">Shopping Bag</string>
+    <string name="language">Language</string>
+    <string name="font_size">Font Size</string>
+    <string name="night_mode">Night Mode</string>
+    <string name="version">Version</string>
+    <string name="nav_drawer_open" translatable="false">Open</string>
+    <string name="nav_drawer_close" translatable="false">Close</string>
+    <string name="font_size_small">Small</string>
+    <string name="font_size_normal">Normal</string>
+    <string name="font_size_large">Large</string>
+    <string name="font_size_x_large">Extra Large</string>
+    <string name="dialog_select_font_size_title">Select Font Size</string>
+    <string name="dialog_select_lang_title">Select Language</string>
+    <string name="farsi" translatable="false">فارسی</string>
+    <string name="english" translatable="false">English</string>
 </resources>

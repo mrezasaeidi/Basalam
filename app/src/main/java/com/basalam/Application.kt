@@ -5,10 +5,14 @@ import android.app.Application
 import android.app.Application.ActivityLifecycleCallbacks
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.os.Bundle
+import android.os.Handler
 import androidx.appcompat.app.AppCompatDelegate
 import com.basalam.ui.activity.RootActivity
+import com.basalam.ui.utils.Constants.CONFIG_PREF_NAME
+import com.basalam.ui.utils.LayoutUtil
 import java.util.*
 import kotlin.system.exitProcess
 
@@ -57,7 +61,6 @@ class Application : Application(), ActivityLifecycleCallbacks {
     override fun onActivityDestroyed(activity: Activity) {}
 
     companion object {
-        const val CONFIG_PREF_NAME = "config"
 
         var currentFontScaleStyle = R.style.FontStyle_Normal
 
@@ -68,7 +71,7 @@ class Application : Application(), ActivityLifecycleCallbacks {
             setLocale(context, lang, country, false)
         }
 
-        private fun setLocale(context: Context, lang: String, country: String, reload: Boolean) {
+        fun setLocale(context: Context, lang: String, country: String, reload: Boolean) {
             if (reload) {
                 context.getSharedPreferences(CONFIG_PREF_NAME, MODE_PRIVATE)
                     .edit()
@@ -88,17 +91,51 @@ class Application : Application(), ActivityLifecycleCallbacks {
             resApp.updateConfiguration(conf, dm)
             context.applicationContext.createConfigurationContext(conf)
             context.createConfigurationContext(conf)
+            LayoutUtil.init(context)
             if (reload) {
-                restart(context)
+                restart(context, 500)
             }
         }
 
-        fun restart(context: Context) {
+        fun setFontSize(context: Context, style: Style.FontStyle) {
+            currentFontScaleStyle = style.resId
+            context.getSharedPreferences(CONFIG_PREF_NAME, MODE_PRIVATE).edit().putInt(
+                "font_size",
+                currentFontScaleStyle
+            ).apply()
+            restart(context, 500)
+        }
+
+        private fun restart(context: Context, delay: Long) {
             val intentToBeNewRoot = Intent(context, RootActivity::class.java)
             val cn = intentToBeNewRoot.component
             val mainIntent = Intent.makeRestartActivityTask(cn)
-            context.startActivity(mainIntent)
-            exitProcess(0)
+            if (delay == 0L) {
+                context.startActivity(mainIntent)
+                exitProcess(0)
+            } else {
+                Handler().postDelayed({
+                    context.startActivity(mainIntent)
+                    exitProcess(0)
+                }, delay)
+            }
+        }
+
+        fun toggleNightMode(context: Context, night: Boolean) {
+            AppCompatDelegate.setDefaultNightMode(if (night) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
+            context.getSharedPreferences(CONFIG_PREF_NAME, MODE_PRIVATE).edit()
+                .putBoolean("night_mode", night).apply()
+        }
+
+        fun getAppVersion(context: Context): String {
+            try {
+                val pm = context.packageManager
+                val info = pm.getPackageInfo(context.packageName, 0)
+                return info.versionName
+            } catch (e: PackageManager.NameNotFoundException) {
+                e.printStackTrace()
+            }
+            return ""
         }
     }
 }
