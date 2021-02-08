@@ -11,7 +11,11 @@ import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatDelegate
 import com.basalam.ui.activity.RootActivity
+import com.basalam.ui.utils.Constants.CONFIG_PREF_COUNTRY
+import com.basalam.ui.utils.Constants.CONFIG_PREF_FONT_SIZE
+import com.basalam.ui.utils.Constants.CONFIG_PREF_LANG
 import com.basalam.ui.utils.Constants.CONFIG_PREF_NAME
+import com.basalam.ui.utils.Constants.CONFIG_PREF_NIGHT_MODE
 import com.basalam.ui.utils.LayoutUtil
 import java.util.*
 import kotlin.system.exitProcess
@@ -40,13 +44,14 @@ class Application : Application(), ActivityLifecycleCallbacks {
 
     private fun checkNightMode() {
         val preferences = getSharedPreferences(CONFIG_PREF_NAME, MODE_PRIVATE)
-        val night = preferences.getBoolean("night_mode", false)
+        val night = preferences.getBoolean(CONFIG_PREF_NIGHT_MODE, false)
         AppCompatDelegate.setDefaultNightMode(if (night) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
     }
 
     private fun initFontSizeDefault() {
         val preferences = getSharedPreferences(CONFIG_PREF_NAME, MODE_PRIVATE)
-        currentFontScaleStyle = preferences.getInt("font_size", Style.FontStyle.Normal.resId)
+        currentFontScaleStyle =
+            preferences.getInt(CONFIG_PREF_FONT_SIZE, Style.FontStyle.Normal.resId)
     }
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
@@ -66,8 +71,8 @@ class Application : Application(), ActivityLifecycleCallbacks {
 
         fun setLocale(context: Context) {
             val pref = context.getSharedPreferences(CONFIG_PREF_NAME, MODE_PRIVATE)
-            val lang = pref.getString("lang", "fa")!!
-            val country = pref.getString("country", "IR")!!
+            val lang = pref.getString(CONFIG_PREF_LANG, LayoutUtil.Lang.FA.lang)!!
+            val country = pref.getString(CONFIG_PREF_COUNTRY, LayoutUtil.Lang.FA.country)!!
             setLocale(context, lang, country, false)
         }
 
@@ -75,8 +80,8 @@ class Application : Application(), ActivityLifecycleCallbacks {
             if (reload) {
                 context.getSharedPreferences(CONFIG_PREF_NAME, MODE_PRIVATE)
                     .edit()
-                    .putString("lang", lang)
-                    .putString("country", country)
+                    .putString(CONFIG_PREF_LANG, lang)
+                    .putString(CONFIG_PREF_COUNTRY, country)
                     .apply()
             }
             val locale = Locale(lang, country)
@@ -100,7 +105,7 @@ class Application : Application(), ActivityLifecycleCallbacks {
         fun setFontSize(context: Context, style: Style.FontStyle) {
             currentFontScaleStyle = style.resId
             context.getSharedPreferences(CONFIG_PREF_NAME, MODE_PRIVATE).edit().putInt(
-                "font_size",
+                CONFIG_PREF_FONT_SIZE,
                 currentFontScaleStyle
             ).apply()
             restart(context, 500)
@@ -124,7 +129,7 @@ class Application : Application(), ActivityLifecycleCallbacks {
         fun toggleNightMode(context: Context, night: Boolean) {
             AppCompatDelegate.setDefaultNightMode(if (night) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO)
             context.getSharedPreferences(CONFIG_PREF_NAME, MODE_PRIVATE).edit()
-                .putBoolean("night_mode", night).apply()
+                .putBoolean(CONFIG_PREF_NIGHT_MODE, night).apply()
         }
 
         fun getAppVersion(context: Context): String {

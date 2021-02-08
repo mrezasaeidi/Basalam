@@ -9,26 +9,24 @@ object LayoutUtil {
 
     private lateinit var locale: String
     private var rtl = false
-    private var fa = false
-    private var en = false
+    private var lang = Lang.FA
 
     fun init(context: Context) {
         rtl = context.resources.getBoolean(R.bool.rtl)
         locale = Locale.getDefault().language.toLowerCase(Locale.ROOT)
-        fa = locale == "fa"
-        en = locale == "en"
+        lang = if (locale == Lang.EN.lang) {
+            Lang.EN
+        } else {
+            Lang.FA
+        }
     }
 
-    enum class Lang {
-        FA, EN
+    enum class Lang(val lang: String, val country: String) {
+        FA("fa", "IR"), EN("en", "US")
     }
 
     fun getLanguage(): Lang {
-        return when {
-            fa -> Lang.FA
-            en -> Lang.EN
-            else -> Lang.FA
-        }
+        return lang
     }
 
     fun formatNumber(value: String): String {
@@ -41,7 +39,7 @@ object LayoutUtil {
 
     object NumberFormatting {
         fun toLocale(text: String, localeName: String): String {
-            return if (localeName == "fa") {
+            return if (localeName == Lang.FA.lang) {
                 toFa(text)
             } else {
                 text
