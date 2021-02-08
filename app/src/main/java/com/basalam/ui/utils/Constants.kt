@@ -3,6 +3,7 @@ package com.basalam.ui.utils
 object Constants {
     // Config
     const val CONFIG_PREF_NAME = "config"
+    const val SPLASH_TIME_OUT = 2200L
 
     // Routing Params
     const val FRAGMENT_ID = "FRAGMENT_ID"

@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import com.basalam.R
+import com.basalam.ui.utils.Constants
 
 class SplashActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,10 +21,6 @@ class SplashActivity : BaseActivity() {
         Handler().postDelayed({
             startActivity(Intent(this, RootActivity::class.java))
             finish()
-        }, SPLASH_TIME_OUT)
-    }
-
-    companion object {
-        private const val SPLASH_TIME_OUT = 2200L
+        }, Constants.SPLASH_TIME_OUT)
     }
 }
