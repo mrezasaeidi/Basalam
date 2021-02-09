@@ -150,8 +150,11 @@ class RootFragment : BaseFragment() {
     }
 
     private fun initSearch(query: String) {
-        productListAdapter.initSearch(query)
-        checkEmpty(true)
+        productListAdapter.initSearch(query).let {
+            if (it) {
+                checkEmpty(true)
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

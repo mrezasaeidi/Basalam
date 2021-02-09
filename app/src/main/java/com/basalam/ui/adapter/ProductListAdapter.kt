@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.basalam.R
 import com.basalam.storage.repository.local.entity.ProductModel
+import com.basalam.ui.utils.Fonts
 import com.basalam.ui.utils.LayoutUtil
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners
@@ -33,7 +34,7 @@ class ProductListAdapter(private val fragment: Fragment) :
             notifyDataSetChanged()
         }
 
-    fun initSearch(query: String) {
+    fun initSearch(query: String): Boolean {
         if (this.query != query) {
             this.query = query
             filteredList = if (query.isBlank()) {
@@ -41,7 +42,9 @@ class ProductListAdapter(private val fragment: Fragment) :
             } else {
                 products.filter { it.name.contains(query) || it.vendorName.contains(query) }
             }
+            return true
         }
+        return false
     }
 
     private fun getItem(position: Int) = filteredList[position]
@@ -68,12 +71,15 @@ class ProductListAdapter(private val fragment: Fragment) :
                     .into(productItemImageIV)
                 productItemRatingTV.text =
                     LayoutUtil.formatNumber("${productModel.rating ?: ""} (${productModel.ratingCount})")
-                productItemNameTV.text = productModel.name
-                productItemVendorTV.text = productModel.vendorName
+                        .trim()
+                productItemNameTV.text = LayoutUtil.formatNumber(productModel.name).trim()
+                productItemVendorTV.text = LayoutUtil.formatNumber(productModel.vendorName).trim()
                 productItemWeightTV.text =
-                    LayoutUtil.formatNumber("$weightUnit ${productModel.weight}")
+                    LayoutUtil.formatNumber("${productModel.weight} $weightUnit").trim()
                 productItemPriceTV.text =
-                    LayoutUtil.formatNumber("$currency ${LayoutUtil.formatPrice(productModel.price)}")
+                    LayoutUtil.formatNumber("${LayoutUtil.formatPrice(productModel.price)} $currency")
+                        .trim()
+                productItemPriceTV.typeface = Fonts.bold(context)
             }
         }
     }
