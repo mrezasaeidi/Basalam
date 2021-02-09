@@ -3,6 +3,9 @@ package com.basalam.ui.utils
 import android.app.Activity
 import android.content.Context
 import com.basalam.R
+import java.math.RoundingMode
+import java.text.DecimalFormat
+import java.text.NumberFormat
 import java.util.*
 
 object LayoutUtil {
@@ -89,4 +92,19 @@ object LayoutUtil {
         }
     }
 
+    fun formatPrice(price: Any?): String? {
+        if (price == null) {
+            return ""
+        }
+        val df = NumberFormat.getInstance() as DecimalFormat
+        df.minimumFractionDigits = 0
+        df.maximumFractionDigits = 0
+        df.roundingMode = RoundingMode.FLOOR
+        return df.format(price)
+    }
+
+    fun dp(context: Context, dp: Float): Int {
+        val density = context.resources.displayMetrics.density
+        return (dp * density + .5f).toInt()
+    }
 }

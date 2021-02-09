@@ -1,11 +1,9 @@
 package com.basalam.ui.fragment
 
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.basalam.ui.utils.ViewUtils
 
 open class BaseFragment : Fragment() {
     private var isRootFragment = false
@@ -92,40 +90,4 @@ open class BaseFragment : Fragment() {
     }
 
     fun onConfigureActionBar(actionBar: ActionBar?) {}
-
-    open fun goneView(view: View?) {
-        ViewUtils.goneView(view)
-    }
-
-    open fun goneView(view: View?, isAnimated: Boolean) {
-        ViewUtils.goneView(view, isAnimated)
-    }
-
-    open fun goneView(view: View?, isAnimated: Boolean, isSlow: Boolean) {
-        ViewUtils.goneView(view, isAnimated, isSlow)
-    }
-
-    open fun hideView(view: View?) {
-        ViewUtils.hideView(view)
-    }
-
-    open fun hideView(view: View?, isAnimated: Boolean) {
-        ViewUtils.hideView(view, isAnimated)
-    }
-
-    open fun hideView(view: View?, isAnimated: Boolean, isSlow: Boolean) {
-        ViewUtils.hideView(view, isAnimated, isSlow)
-    }
-
-    open fun showView(view: View?) {
-        ViewUtils.showView(view)
-    }
-
-    open fun showView(view: View?, isAnimated: Boolean) {
-        ViewUtils.showView(view, isAnimated)
-    }
-
-    open fun showView(view: View?, isAnimated: Boolean, isSlow: Boolean) {
-        ViewUtils.showView(view, isAnimated, isSlow)
-    }
 }

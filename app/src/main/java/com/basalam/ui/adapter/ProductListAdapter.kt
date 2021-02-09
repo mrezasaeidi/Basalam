@@ -3,14 +3,21 @@ package com.basalam.ui.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.basalam.R
 import com.basalam.storage.repository.local.entity.ProductModel
 import com.basalam.ui.utils.LayoutUtil
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners
 import kotlinx.android.synthetic.main.product_item.view.*
 
-class ProductListAdapter : RecyclerView.Adapter<ProductListAdapter.ProductViewHolder>() {
+class ProductListAdapter(private val fragment: Fragment) :
+    RecyclerView.Adapter<ProductListAdapter.ProductViewHolder>() {
+    private val radius = LayoutUtil.dp(fragment.context!!, 16f).toFloat()
+    private val currency = fragment.getString(R.string.currency)
+    private val weightUnit = fragment.getString(R.string.weight_unit)
+
     var products = emptyList<ProductModel>()
         set(value) {
             field = value
@@ -31,16 +38,22 @@ class ProductListAdapter : RecyclerView.Adapter<ProductListAdapter.ProductViewHo
 
     override fun getItemCount() = products.size
 
-    class ProductViewHolder(item: View) : RecyclerView.ViewHolder(item) {
+    inner class ProductViewHolder(item: View) : RecyclerView.ViewHolder(item) {
         fun bind(productModel: ProductModel) {
             itemView.apply {
-                Glide.with(itemView.context).load(productModel.photoUrl).into(productItemImageIV)
+                Glide.with(fragment).load(productModel.photoUrl)
+                    .transform(GranularRoundedCorners(radius, radius, 0f, 0f))
+                    .placeholder(R.drawable.ic_photo)
+                    .error(R.drawable.ic_photo)
+                    .into(productItemImageIV)
                 productItemRatingTV.text =
-                    LayoutUtil.formatNumber(productModel.ratingCount.toString())
+                    LayoutUtil.formatNumber("${productModel.rating ?: ""} (${productModel.ratingCount})")
                 productItemNameTV.text = productModel.name
                 productItemVendorTV.text = productModel.vendorName
-                productItemWeightTV.text = LayoutUtil.formatNumber(productModel.weight.toString())
-                productItemPriceTV.text = LayoutUtil.formatNumber(productModel.price.toString())
+                productItemWeightTV.text =
+                    LayoutUtil.formatNumber("$weightUnit ${productModel.weight}")
+                productItemPriceTV.text =
+                    LayoutUtil.formatNumber("$currency ${LayoutUtil.formatPrice(productModel.price)}")
             }
         }
     }

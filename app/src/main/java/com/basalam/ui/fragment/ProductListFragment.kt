@@ -15,7 +15,7 @@ import com.basalam.ui.utils.visible
 import kotlinx.android.synthetic.main.product_list_fragment.view.*
 
 class ProductListFragment : BaseFragment() {
-    private val productListAdapter = ProductListAdapter()
+    private lateinit var productListAdapter: ProductListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -23,6 +23,7 @@ class ProductListFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View {
         val res = inflater.inflate(R.layout.product_list_fragment, container, false)
+        productListAdapter = ProductListAdapter(this)
         res.productListFragListSR.setOnRefreshListener {
             loadData(res)
         }

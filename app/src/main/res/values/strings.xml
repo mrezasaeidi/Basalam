@@ -20,4 +20,6 @@
     <string name="main_search_hint">Type something to search</string>
     <string name="search">Search</string>
     <string name="nothing_found">There Is Nothing To Show</string>
+    <string name="currency">R</string>
+    <string name="weight_unit">g</string>
 </resources>
