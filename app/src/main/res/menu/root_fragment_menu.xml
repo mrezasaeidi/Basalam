@@ -7,4 +7,12 @@
         android:icon="@drawable/ic_shopping_bag"
         android:title="@string/shopping_bag"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/searchMenuItem"
+        android:icon="@drawable/ic_search"
+        android:title="@string/search"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="always|collapseActionView" />
+
 </menu>
