@@ -2,8 +2,8 @@ package com.basalam.ui.activity
 
 import android.os.Bundle
 import com.basalam.ui.fragment.ShoppingBagFragment
-import com.basalam.Constants.FRAGMENT_ID
-import com.basalam.Constants.SHOPPING_BAG
+import com.basalam.ui.utils.Intents.FRAGMENT_ID
+import com.basalam.ui.utils.Intents.SHOPPING_BAG
 
 class RouterActivity : BaseFragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
