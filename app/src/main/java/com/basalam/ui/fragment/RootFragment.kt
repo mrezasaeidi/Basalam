@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.basalam.R
-import com.basalam.storage.ProductViewModel
+import com.basalam.storage.viewmodel.ProductViewModel
 import com.basalam.ui.adapter.ProductListAdapter
 import com.basalam.ui.utils.Intents
 import com.basalam.ui.utils.ViewUtils

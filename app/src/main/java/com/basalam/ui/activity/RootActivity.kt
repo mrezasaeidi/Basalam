@@ -12,7 +12,9 @@ import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.graphics.drawable.DrawerArrowDrawable
 import androidx.core.view.GravityCompat
 import com.basalam.Application
+import com.basalam.Constants
 import com.basalam.R
+import com.basalam.storage.repository.local.LocalDatabase
 import com.basalam.ui.utils.Style
 import com.basalam.ui.fragment.RootFragment
 import com.basalam.ui.utils.Fonts
@@ -24,6 +26,8 @@ import kotlinx.android.synthetic.main.dialog_select_font_size.view.*
 import kotlinx.android.synthetic.main.dialog_select_lang.view.*
 import kotlinx.android.synthetic.main.nav_header_root.view.*
 import kotlinx.android.synthetic.main.root_activity.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class RootActivity : BaseFragmentActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -134,6 +138,10 @@ class RootActivity : BaseFragmentActivity(), NavigationView.OnNavigationItemSele
                 val nightMode = (navMenu!!.findItem(R.id.nav_night).actionView) as CompoundButton
                 nightMode.isChecked = !nightMode.isChecked
             }
+
+            R.id.nav_clear_cache -> {
+                clearCache()
+            }
         }
         if (close) {
             drawerLayout.closeDrawer(GravityCompat.START)
@@ -210,5 +218,13 @@ class RootActivity : BaseFragmentActivity(), NavigationView.OnNavigationItemSele
             dialog.dismiss()
         }
         dialog.show()
+    }
+
+    private fun clearCache() {
+        GlobalScope.launch {
+            getSharedPreferences(Constants.CONFIG_PREF_NAME, MODE_PRIVATE).edit().clear().apply()
+            LocalDatabase.getDatabase(this@RootActivity).deleteDatabase()
+            Application.restart(applicationContext, 500)
+        }
     }
 }

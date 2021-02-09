@@ -23,6 +23,10 @@
             android:icon="@drawable/ic_night"
             android:title="@string/night_mode"
             app:actionViewClass="android.widget.Switch" />
+        <item
+            android:id="@+id/nav_clear_cache"
+            android:icon="@drawable/ic_delete"
+            android:title="@string/clear_cache" />
     </group>
 
     <item

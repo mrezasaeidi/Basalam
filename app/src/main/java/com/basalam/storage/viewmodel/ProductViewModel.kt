@@ -1,4 +1,4 @@
-package com.basalam.storage
+package com.basalam.storage.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

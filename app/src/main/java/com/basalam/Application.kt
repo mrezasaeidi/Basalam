@@ -9,6 +9,7 @@ import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import androidx.appcompat.app.AppCompatDelegate
 import com.basalam.ui.activity.RootActivity
 import com.basalam.Constants.CONFIG_PREF_COUNTRY
@@ -134,8 +135,8 @@ class Application : Application(), ActivityLifecycleCallbacks {
             exitProcess(0)
         }
 
-        private fun restart(context: Context, delay: Long) {
-            Handler().postDelayed({
+        fun restart(context: Context, delay: Long) {
+            Handler(Looper.getMainLooper()).postDelayed({
                 restart(context)
             }, delay)
         }

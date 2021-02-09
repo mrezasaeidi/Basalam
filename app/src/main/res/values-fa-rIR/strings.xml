@@ -6,6 +6,7 @@
     <string name="language">زبان</string>
     <string name="font_size">سایز متن</string>
     <string name="night_mode">حالت شب</string>
+    <string name="clear_cache">پاکسازی حافظه</string>
     <string name="version">نسخه</string>
     <string name="font_size_small">کوچک</string>
     <string name="font_size_normal">متوسط</string>

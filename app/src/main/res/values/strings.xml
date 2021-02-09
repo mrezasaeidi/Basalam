@@ -5,6 +5,7 @@
     <string name="language">Language</string>
     <string name="font_size">Font Size</string>
     <string name="night_mode">Night Mode</string>
+    <string name="clear_cache">Clear Cache</string>
     <string name="version">Version</string>
     <string name="nav_drawer_open" translatable="false">Open</string>
     <string name="nav_drawer_close" translatable="false">Close</string>
