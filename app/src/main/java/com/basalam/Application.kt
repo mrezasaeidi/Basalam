@@ -18,6 +18,9 @@ import com.basalam.ui.utils.Constants.CONFIG_PREF_NAME
 import com.basalam.ui.utils.Constants.CONFIG_PREF_NIGHT_MODE
 import com.basalam.ui.utils.LayoutUtil
 import com.basalam.ui.utils.Style
+import io.github.inflationx.calligraphy3.CalligraphyConfig
+import io.github.inflationx.calligraphy3.CalligraphyInterceptor
+import io.github.inflationx.viewpump.ViewPump
 import java.util.*
 import kotlin.system.exitProcess
 
@@ -40,7 +43,18 @@ class Application : Application(), ActivityLifecycleCallbacks {
 
 
     private fun overrideFont() {
-
+        ViewPump.init(
+            ViewPump.builder()
+                .addInterceptor(
+                    CalligraphyInterceptor(
+                        CalligraphyConfig.Builder()
+                            .setDefaultFontPath("vazir.ttf")
+                            .setFontAttrId(R.attr.fontPath)
+                            .build()
+                    )
+                )
+                .build()
+        )
     }
 
     private fun checkNightMode() {

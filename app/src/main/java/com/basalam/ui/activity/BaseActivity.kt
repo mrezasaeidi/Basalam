@@ -1,5 +1,6 @@
 package com.basalam.ui.activity
 
+import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -15,6 +16,7 @@ import com.basalam.Application
 import com.basalam.R
 import com.basalam.ui.utils.Style
 import com.jude.swipbackhelper.SwipeBackHelper
+import io.github.inflationx.viewpump.ViewPumpContextWrapper
 
 open class BaseActivity : AppCompatActivity() {
     var canSwipe = true
@@ -43,6 +45,10 @@ open class BaseActivity : AppCompatActivity() {
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
             window.statusBarColor = ContextCompat.getColor(this, R.color.md_grey_500)
         }
+    }
+
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase))
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {

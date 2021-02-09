@@ -55,5 +55,6 @@ dependencies {
     implementation "androidx.cardview:cardview:$card_view"
     implementation "androidx.constraintlayout:constraintlayout:$constraint_layout"
     implementation 'com.jude:swipebackhelper:3.1.2'
-
+    implementation 'io.github.inflationx:viewpump:2.0.3'
+    implementation 'io.github.inflationx:calligraphy3:3.1.1'
 }

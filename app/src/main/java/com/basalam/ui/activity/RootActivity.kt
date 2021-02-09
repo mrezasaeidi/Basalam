@@ -15,6 +15,7 @@ import com.basalam.Application
 import com.basalam.R
 import com.basalam.ui.utils.Style
 import com.basalam.ui.fragment.RootFragment
+import com.basalam.ui.utils.Fonts
 import com.basalam.ui.utils.Intents
 import com.basalam.ui.utils.LayoutUtil
 import com.google.android.material.navigation.NavigationView
@@ -76,7 +77,10 @@ class RootActivity : BaseFragmentActivity(), NavigationView.OnNavigationItemSele
                         R.drawable.ic_person_grey
                     )
                 )
-            navHeaderName.setText(R.string.user_name)
+            navHeaderName.apply {
+                setText(R.string.user_name)
+                typeface = Fonts.bold(context)
+            }
         }
 
         navMenu!!.findItem(R.id.nav_version).title =
