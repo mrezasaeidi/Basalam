@@ -6,8 +6,8 @@ import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.basalam.R
+import com.basalam.ui.utils.ViewUtils
 import com.basalam.ui.utils.gone
-import kotlinx.android.synthetic.main.global_search_fragment.*
 import kotlinx.android.synthetic.main.global_search_fragment.view.*
 
 class SearchProductFragment : BaseFragment() {
@@ -84,9 +84,9 @@ class SearchProductFragment : BaseFragment() {
             return
         }
         isSearchVisible = true
-        showView(searchHintTV, false)
-        goneView(searchEmptyTV, false)
-        showView(searchContainerFL, false)
+        ViewUtils.showView(view?.searchHintTV, false)
+        ViewUtils.goneView(view?.searchEmptyTV, false)
+        ViewUtils.showView(view?.searchContainerFL, false)
         if (parentFragment is SearchProductStateDelegate) {
             (parentFragment as SearchProductStateDelegate).onSearchStarted()
         }
@@ -98,7 +98,7 @@ class SearchProductFragment : BaseFragment() {
         }
         isSearchVisible = false
         searchQuery = null
-        goneView(searchContainerFL, false)
+        ViewUtils.goneView(view?.searchContainerFL, false)
         if (searchMenuItem?.isActionViewExpanded == true) {
             searchMenuItem?.collapseActionView()
         }

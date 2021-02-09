@@ -11,11 +11,11 @@ import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatDelegate
 import com.basalam.ui.activity.RootActivity
-import com.basalam.ui.utils.Constants.CONFIG_PREF_COUNTRY
-import com.basalam.ui.utils.Constants.CONFIG_PREF_FONT_SIZE
-import com.basalam.ui.utils.Constants.CONFIG_PREF_LANG
-import com.basalam.ui.utils.Constants.CONFIG_PREF_NAME
-import com.basalam.ui.utils.Constants.CONFIG_PREF_NIGHT_MODE
+import com.basalam.Constants.CONFIG_PREF_COUNTRY
+import com.basalam.Constants.CONFIG_PREF_FONT_SIZE
+import com.basalam.Constants.CONFIG_PREF_LANG
+import com.basalam.Constants.CONFIG_PREF_NAME
+import com.basalam.Constants.CONFIG_PREF_NIGHT_MODE
 import com.basalam.ui.utils.LayoutUtil
 import com.basalam.ui.utils.Style
 import io.github.inflationx.calligraphy3.CalligraphyConfig
@@ -126,19 +126,18 @@ class Application : Application(), ActivityLifecycleCallbacks {
             restart(context, 500)
         }
 
-        private fun restart(context: Context, delay: Long) {
+        private fun restart(context: Context) {
             val intentToBeNewRoot = Intent(context, RootActivity::class.java)
             val cn = intentToBeNewRoot.component
             val mainIntent = Intent.makeRestartActivityTask(cn)
-            if (delay == 0L) {
-                context.startActivity(mainIntent)
-                exitProcess(0)
-            } else {
-                Handler().postDelayed({
-                    context.startActivity(mainIntent)
-                    exitProcess(0)
-                }, delay)
-            }
+            context.startActivity(mainIntent)
+            exitProcess(0)
+        }
+
+        private fun restart(context: Context, delay: Long) {
+            Handler().postDelayed({
+                restart(context)
+            }, delay)
         }
 
         fun toggleNightMode(context: Context, night: Boolean) {
@@ -149,9 +148,7 @@ class Application : Application(), ActivityLifecycleCallbacks {
 
         fun getAppVersion(context: Context): String {
             try {
-                val pm = context.packageManager
-                val info = pm.getPackageInfo(context.packageName, 0)
-                return info.versionName
+                return context.packageManager.getPackageInfo(context.packageName, 0).versionName
             } catch (e: PackageManager.NameNotFoundException) {
                 e.printStackTrace()
             }

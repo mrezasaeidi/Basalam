@@ -5,6 +5,7 @@ import android.view.*
 import android.widget.FrameLayout
 import com.basalam.R
 import com.basalam.ui.utils.Intents
+import com.basalam.ui.utils.ViewUtils
 
 class RootFragment : BaseFragment(), SearchProductStateDelegate {
 
@@ -65,9 +66,11 @@ class RootFragment : BaseFragment(), SearchProductStateDelegate {
 
     override fun onSearchStarted() {
         shoppingBagMenu?.isVisible = false
+        ViewUtils.zoomOutView(view?.findViewById(R.id.content))
     }
 
     override fun onSearchEnded() {
         shoppingBagMenu?.isVisible = true
+        ViewUtils.zoomInView(view?.findViewById(R.id.content))
     }
 }

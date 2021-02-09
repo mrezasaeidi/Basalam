@@ -3,8 +3,8 @@ package com.basalam.ui.utils
 import android.app.Activity
 import android.content.Intent
 import com.basalam.ui.activity.RouterActivity
-import com.basalam.ui.utils.Constants.FRAGMENT_ID
-import com.basalam.ui.utils.Constants.SHOPPING_BAG
+import com.basalam.Constants.FRAGMENT_ID
+import com.basalam.Constants.SHOPPING_BAG
 
 object Intents {
 

@@ -16,4 +16,5 @@
     <string name="main_search_empty">چیزی پیدا نشد</string>
     <string name="main_search_hint">چیزی بنویسید تا جستجو کنیم</string>
     <string name="search">جستجو</string>
+    <string name="nothing_found">چیزی برای نمایش یافت نشد</string>
 </resources>

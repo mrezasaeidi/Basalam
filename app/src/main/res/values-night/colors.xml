@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="material_background">@color/material_night_primary</color>
+    <color name="background_grey_with_night_support">@color/material_night_dark</color>
 </resources>

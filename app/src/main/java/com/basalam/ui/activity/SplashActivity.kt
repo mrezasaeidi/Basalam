@@ -6,8 +6,8 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
+import com.basalam.Constants
 import com.basalam.R
-import com.basalam.ui.utils.Constants
 
 class SplashActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

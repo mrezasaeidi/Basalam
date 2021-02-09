@@ -4,6 +4,8 @@
     <color name="material_grey_primary">#ffffff</color>
     <color name="material_grey_dark">#c2c2c2</color>
     <color name="material_background">@color/material_grey_primary</color>
+    <color name="background_grey_with_night_support">#F4F7F6</color>
+    <color name="dark_grey_dash">#92A2B2</color>
 
     <color name="material_night_primary">#1B2936</color>
     <color name="material_night_dark">#15202b</color>

@@ -1,4 +1,4 @@
-package com.basalam.ui.utils
+package com.basalam
 
 object Constants {
     // Config
@@ -8,6 +8,7 @@ object Constants {
     const val CONFIG_PREF_COUNTRY = "country"
     const val CONFIG_PREF_FONT_SIZE = "font_size"
     const val SPLASH_TIME_OUT = 2200L
+    const val END_POINT = "https://api.basalam.com"
 
     // Routing Params
     const val FRAGMENT_ID = "FRAGMENT_ID"
