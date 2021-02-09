@@ -25,7 +25,6 @@ class RootFragment : BaseFragment() {
     private var searchMenuItem: MenuItem? = null
     private var searchView: SearchView? = null
     private var isSearchVisible = false
-    private var searchQuery: String? = null
     private var shoppingBagMenu: MenuItem? = null
 
     override fun onCreateView(
@@ -64,20 +63,27 @@ class RootFragment : BaseFragment() {
             .create(ProductViewModel::class.java)
             .getProductsLive().observe(viewLifecycleOwner, {
                 productListAdapter.products = it
-                view.apply {
-                    productListFragListSR.isRefreshing = false
-                    if (it.isEmpty()) {
-                        ViewUtils.zoomOutView(productListFragListRV)
-                        ViewUtils.zoomInView(productListFragEmptyTV)
-                    } else {
-                        ViewUtils.zoomOutView(productListFragEmptyTV)
-                        productListFragListRV.apply {
-                            visible()
-                            scheduleLayoutAnimation()
-                        }
+                view.productListFragListSR.isRefreshing = false
+                checkEmpty(true, view)
+            })
+    }
+
+    private fun checkEmpty(animate: Boolean, res: View? = view) {
+        res?.apply {
+            if (productListAdapter.itemCount == 0) {
+                ViewUtils.zoomOutView(productListFragListRV)
+                ViewUtils.zoomInView(productListFragEmptyTV)
+            } else {
+                ViewUtils.zoomOutView(productListFragEmptyTV)
+                productListFragListRV.apply {
+                    visible()
+                    if (animate) {
+                        scheduleLayoutAnimation()
                     }
                 }
-            })
+
+            }
+        }
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -115,9 +121,8 @@ class RootFragment : BaseFragment() {
             }
 
             override fun onQueryTextChange(s: String): Boolean {
-                searchQuery = s.trim()
                 if (isSearchVisible) {
-                    //TODO
+                    initSearch(s.trim())
                 }
                 return false
             }
@@ -137,11 +142,16 @@ class RootFragment : BaseFragment() {
             return
         }
         isSearchVisible = false
-        searchQuery = null
         shoppingBagMenu?.isVisible = true
         if (searchMenuItem?.isActionViewExpanded == true) {
             searchMenuItem?.collapseActionView()
         }
+        initSearch("")
+    }
+
+    private fun initSearch(query: String) {
+        productListAdapter.initSearch(query)
+        checkEmpty(true)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

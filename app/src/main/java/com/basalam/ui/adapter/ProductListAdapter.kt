@@ -17,14 +17,34 @@ class ProductListAdapter(private val fragment: Fragment) :
     private val radius = LayoutUtil.dp(fragment.context!!, 16f).toFloat()
     private val currency = fragment.getString(R.string.currency)
     private val weightUnit = fragment.getString(R.string.weight_unit)
+    private var query = ""
 
     var products = emptyList<ProductModel>()
+        set(value) {
+            field = value
+            if (query.isBlank()) {
+                filteredList = value
+            }
+        }
+
+    private var filteredList = products
         set(value) {
             field = value
             notifyDataSetChanged()
         }
 
-    private fun getItem(position: Int) = products[position]
+    fun initSearch(query: String) {
+        if (this.query != query) {
+            this.query = query
+            filteredList = if (query.isBlank()) {
+                products
+            } else {
+                products.filter { it.name.contains(query) || it.vendorName.contains(query) }
+            }
+        }
+    }
+
+    private fun getItem(position: Int) = filteredList[position]
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         LayoutInflater.from(parent.context).inflate(R.layout.product_item, parent, false).let {
@@ -36,7 +56,7 @@ class ProductListAdapter(private val fragment: Fragment) :
         holder.bind(getItem(position))
     }
 
-    override fun getItemCount() = products.size
+    override fun getItemCount() = filteredList.size
 
     inner class ProductViewHolder(item: View) : RecyclerView.ViewHolder(item) {
         fun bind(productModel: ProductModel) {
