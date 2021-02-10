@@ -24,4 +24,5 @@
     <string name="added_to_shopping_bag">Added To Shopping Bag</string>
     <string name="removed_from_shopping_bag">Removed From Shopping Bag</string>
     <string name="empty_shopping_bag">Shopping Bag Is Empty</string>
+    <string name="refresh_alert">Swipe Down To Update</string>
 </resources>

@@ -21,4 +21,5 @@
     <string name="added_to_shopping_bag">به سبد خرید اضافه شد</string>
     <string name="removed_from_shopping_bag">از سبد خرید حذف شد</string>
     <string name="empty_shopping_bag">سبد خرید خالی است</string>
+    <string name="refresh_alert">برای بروزرسانی صفحه را به پایین بکشید</string>
 </resources>

@@ -40,14 +40,16 @@ class RootFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View {
         val res = inflater.inflate(R.layout.root_fragment, container, false)
-        productListAdapter = ProductListAdapter(this) {
+        toastLong(R.string.refresh_alert)
+        productListAdapter = ProductListAdapter(this) { product ->
             context ?: return@ProductListAdapter
             val pref = requireContext().getSharedPreferences(
                 Constants.SHOPPING_BAG_PREF_NAME,
                 Context.MODE_PRIVATE
             )
             val items = ArrayList(pref.getString(Constants.SHOPPING_BAG_ITEMS, "")!!.split(","))
-            items.add(it.id)
+            items.removeAll { it == product.id }
+            items.add(product.id)
             pref.edit().putString(Constants.SHOPPING_BAG_ITEMS, items.joinToString(",")).apply()
             toast(R.string.added_to_shopping_bag)
         }
