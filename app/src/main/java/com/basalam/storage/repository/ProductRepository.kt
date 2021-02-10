@@ -1,6 +1,7 @@
 package com.basalam.storage.repository
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.basalam.storage.repository.local.dao.ProductDao
 import com.basalam.storage.repository.local.entity.ProductModel
 import com.basalam.storage.repository.remote.ProductWebService
@@ -19,8 +20,9 @@ class ProductRepository(private val productDao: ProductDao) {
         return productDao.getAllProductsLive()
     }
 
-
-    fun refreshProducts() {
+    fun refreshProducts(): LiveData<LoadingState> {
+        val liveData = MutableLiveData<LoadingState>()
+        liveData.value = LoadingState.LOADING
         val query =
             ProductQuery("{productSearch(size: 20) {products {id name photo(size: LARGE) { url } vendor { name } weight price rating { rating count: signals } } } }")
 
@@ -35,12 +37,14 @@ class ProductRepository(private val productDao: ProductDao) {
                             productDao.insertOrUpdate(it)
                         }
                 }
-
+                liveData.value = LoadingState.LOAD_SUCCESS
             }
 
             override fun onFailure(call: Call<ProductResponse>, t: Throwable) {
                 call.cancel()
+                liveData.value = LoadingState.LOAD_FAILED
             }
         })
+        return liveData
     }
 }

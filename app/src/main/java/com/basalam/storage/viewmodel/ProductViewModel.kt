@@ -3,6 +3,7 @@ package com.basalam.storage.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import com.basalam.storage.repository.LoadingState
 import com.basalam.storage.repository.ProductRepository
 import com.basalam.storage.repository.local.LocalDatabase
 import com.basalam.storage.repository.local.entity.ProductModel
@@ -15,7 +16,7 @@ class ProductViewModel(application: Application) : AndroidViewModel(application)
         return productRepository.getProducts()
     }
 
-    fun refreshProducts() {
-        productRepository.refreshProducts()
+    fun refreshProducts(): LiveData<LoadingState> {
+        return productRepository.refreshProducts()
     }
 }

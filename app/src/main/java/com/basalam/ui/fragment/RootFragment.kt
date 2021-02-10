@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.basalam.Constants
 import com.basalam.R
+import com.basalam.storage.repository.LoadingState
 import com.basalam.storage.viewmodel.ProductViewModel
 import com.basalam.ui.adapter.ProductListAdapter
 import com.basalam.ui.utils.Intents
@@ -54,7 +55,7 @@ class RootFragment : BaseFragment() {
             toast(R.string.added_to_shopping_bag)
         }
         res.productListFragListSR.setOnRefreshListener {
-            refreshData()
+            refreshData(res)
         }
         res.productListFragListRV.apply {
             layoutManager = GridLayoutManager(
@@ -77,7 +78,6 @@ class RootFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        view.productListFragListSR.isRefreshing = true
         viewModel =
             ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
                 .create(ProductViewModel::class.java)
@@ -85,11 +85,9 @@ class RootFragment : BaseFragment() {
             productListAdapter.products = it
             checkEmpty(true, view)
             if (needRefreshData() || (it.isEmpty() && !isRefreshed)) {
-                view.productListFragListSR.isRefreshing = true
-                refreshData()
+                refreshData(view)
                 return@observe
             }
-            view.productListFragListSR.isRefreshing = false
         })
     }
 
@@ -190,9 +188,22 @@ class RootFragment : BaseFragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun refreshData() {
+    private fun refreshData(res: View) {
         isRefreshed = true
-        viewModel.refreshProducts()
+        viewModel.refreshProducts().observe(viewLifecycleOwner, {
+            when (it) {
+                LoadingState.LOADING -> {
+                    res.productListFragListSR.isRefreshing = true
+                }
+                LoadingState.LOAD_SUCCESS -> {
+                    res.productListFragListSR.isRefreshing = false
+                }
+                LoadingState.LOAD_FAILED -> {
+                    toast(R.string.error_connection)
+                    res.productListFragListSR.isRefreshing = false
+                }
+            }
+        })
         context?.getSharedPreferences(Constants.LAST_UPDATE_PREF_NAME, Context.MODE_PRIVATE)?.edit()
             ?.putLong(
                 Constants.LAST_UPDATE_DATE,

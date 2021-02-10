@@ -25,4 +25,5 @@
     <string name="removed_from_shopping_bag">Removed From Shopping Bag</string>
     <string name="empty_shopping_bag">Shopping Bag Is Empty</string>
     <string name="refresh_alert">Swipe Down To Update</string>
+    <string name="error_connection">Make sure that you\'re connected to the Internet</string>
 </resources>
