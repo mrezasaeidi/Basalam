@@ -1,6 +1,7 @@
 package com.basalam.ui.fragment
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -90,4 +91,46 @@ open class BaseFragment : Fragment() {
     }
 
     fun onConfigureActionBar(actionBar: ActionBar?) {}
+
+    open fun toast(text: String?) {
+        try {
+            Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+        } catch (ignored: Exception) {
+        }
+    }
+
+    open fun toast(textResId: Int) {
+        try {
+            toast(getString(textResId))
+        } catch (ignored: Exception) {
+        }
+    }
+
+    open fun toast(text: CharSequence?) {
+        try {
+            Toast.makeText(context, text, Toast.LENGTH_SHORT).show()
+        } catch (ignored: Exception) {
+        }
+    }
+
+    open fun toastLong(text: String?) {
+        try {
+            Toast.makeText(context, text, Toast.LENGTH_LONG).show()
+        } catch (ignored: Exception) {
+        }
+    }
+
+    open fun toastLong(textResId: Int) {
+        try {
+            toast(getString(textResId))
+        } catch (ignored: Exception) {
+        }
+    }
+
+    open fun toastLong(text: CharSequence?) {
+        try {
+            Toast.makeText(context, text, Toast.LENGTH_LONG).show()
+        } catch (ignored: Exception) {
+        }
+    }
 }

@@ -9,4 +9,8 @@ object Constants {
     const val CONFIG_PREF_FONT_SIZE = "font_size"
     const val SPLASH_TIME_OUT = 2200L
     const val END_POINT = "https://api.basalam.com"
+
+    // Shopping Bag
+    const val SHOPPING_BAG_PREF_NAME = "shopping_bag"
+    const val SHOPPING_BAG_ITEMS = "items"
 }

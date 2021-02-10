@@ -18,4 +18,7 @@
     <string name="nothing_found">چیزی برای نمایش یافت نشد</string>
     <string name="currency">ریال</string>
     <string name="weight_unit">گرم</string>
+    <string name="added_to_shopping_bag">به سبد خرید اضافه شد</string>
+    <string name="removed_from_shopping_bag">از سبد خرید حذف شد</string>
+    <string name="empty_shopping_bag">سبد خرید خالی است</string>
 </resources>

@@ -21,4 +21,7 @@
     <string name="nothing_found">There Is Nothing To Show</string>
     <string name="currency">R</string>
     <string name="weight_unit">g</string>
+    <string name="added_to_shopping_bag">Added To Shopping Bag</string>
+    <string name="removed_from_shopping_bag">Removed From Shopping Bag</string>
+    <string name="empty_shopping_bag">Shopping Bag Is Empty</string>
 </resources>

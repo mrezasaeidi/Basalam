@@ -13,7 +13,10 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.GranularRoundedCorners
 import kotlinx.android.synthetic.main.product_item.view.*
 
-class ProductListAdapter(private val fragment: Fragment) :
+class ProductListAdapter(
+    private val fragment: Fragment,
+    private val onClick: ((ProductModel) -> Unit)? = null
+) :
     RecyclerView.Adapter<ProductListAdapter.ProductViewHolder>() {
     private val radius = LayoutUtil.dp(fragment.context!!, 16f).toFloat()
     private val currency = fragment.getString(R.string.currency)
@@ -64,6 +67,7 @@ class ProductListAdapter(private val fragment: Fragment) :
     inner class ProductViewHolder(item: View) : RecyclerView.ViewHolder(item) {
         fun bind(productModel: ProductModel) {
             itemView.apply {
+                setOnClickListener { onClick?.invoke(productModel) }
                 Glide.with(fragment).load(productModel.photoUrl)
                     .transform(GranularRoundedCorners(radius, radius, 0f, 0f))
                     .placeholder(R.drawable.ic_photo)

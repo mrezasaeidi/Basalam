@@ -1,5 +1,6 @@
 package com.basalam.ui.fragment
 
+import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.*
@@ -7,6 +8,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.basalam.Constants
 import com.basalam.R
 import com.basalam.storage.viewmodel.ProductViewModel
 import com.basalam.ui.adapter.ProductListAdapter
@@ -26,6 +28,8 @@ class RootFragment : BaseFragment() {
     private var searchView: SearchView? = null
     private var isSearchVisible = false
     private var shoppingBagMenu: MenuItem? = null
+    private lateinit var viewModel: ProductViewModel
+    private var isRefreshed = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,9 +37,19 @@ class RootFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View {
         val res = inflater.inflate(R.layout.root_fragment, container, false)
-        productListAdapter = ProductListAdapter(this)
+        productListAdapter = ProductListAdapter(this) {
+            context ?: return@ProductListAdapter
+            val pref = requireContext().getSharedPreferences(
+                Constants.SHOPPING_BAG_PREF_NAME,
+                Context.MODE_PRIVATE
+            )
+            val items = ArrayList(pref.getString(Constants.SHOPPING_BAG_ITEMS, "")!!.split(","))
+            items.add(it.id)
+            pref.edit().putString(Constants.SHOPPING_BAG_ITEMS, items.joinToString(",")).apply()
+            toast(R.string.added_to_shopping_bag)
+        }
         res.productListFragListSR.setOnRefreshListener {
-            loadData(res)
+            refreshData()
         }
         res.productListFragListRV.apply {
             layoutManager = GridLayoutManager(
@@ -59,13 +73,19 @@ class RootFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         view.productListFragListSR.isRefreshing = true
-        ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
-            .create(ProductViewModel::class.java)
-            .getProductsLive().observe(viewLifecycleOwner, {
-                productListAdapter.products = it
-                view.productListFragListSR.isRefreshing = false
-                checkEmpty(true, view)
-            })
+        viewModel =
+            ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
+                .create(ProductViewModel::class.java)
+        viewModel.getProductsLive().observe(viewLifecycleOwner, {
+            productListAdapter.products = it
+            checkEmpty(true, view)
+            if (it.isEmpty() && !isRefreshed) {
+                view.productListFragListSR.isRefreshing = true
+                refreshData()
+                return@observe
+            }
+            view.productListFragListSR.isRefreshing = false
+        })
     }
 
     private fun checkEmpty(animate: Boolean, res: View? = view) {
@@ -165,7 +185,8 @@ class RootFragment : BaseFragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun loadData(res: View) {
-
+    private fun refreshData() {
+        isRefreshed = true
+        viewModel.refreshProducts()
     }
 }
