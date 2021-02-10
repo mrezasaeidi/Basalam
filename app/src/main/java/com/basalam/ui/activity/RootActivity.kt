@@ -223,6 +223,10 @@ class RootActivity : BaseFragmentActivity(), NavigationView.OnNavigationItemSele
     private fun clearCache() {
         GlobalScope.launch {
             getSharedPreferences(Constants.CONFIG_PREF_NAME, MODE_PRIVATE).edit().clear().apply()
+            getSharedPreferences(Constants.SHOPPING_BAG_PREF_NAME, MODE_PRIVATE).edit().clear()
+                .apply()
+            getSharedPreferences(Constants.LAST_UPDATE_PREF_NAME, MODE_PRIVATE).edit().clear()
+                .apply()
             LocalDatabase.getDatabase(this@RootActivity).deleteDatabase()
             Application.restart(applicationContext, 500)
         }

@@ -16,6 +16,9 @@ import com.basalam.ui.utils.Intents
 import com.basalam.ui.utils.ViewUtils
 import com.basalam.ui.utils.visible
 import kotlinx.android.synthetic.main.root_fragment.view.*
+import java.util.*
+import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 
 class RootFragment : BaseFragment() {
 
@@ -79,7 +82,7 @@ class RootFragment : BaseFragment() {
         viewModel.getProductsLive().observe(viewLifecycleOwner, {
             productListAdapter.products = it
             checkEmpty(true, view)
-            if (it.isEmpty() && !isRefreshed) {
+            if (needRefreshData() || (it.isEmpty() && !isRefreshed)) {
                 view.productListFragListSR.isRefreshing = true
                 refreshData()
                 return@observe
@@ -188,5 +191,18 @@ class RootFragment : BaseFragment() {
     private fun refreshData() {
         isRefreshed = true
         viewModel.refreshProducts()
+        context?.getSharedPreferences(Constants.LAST_UPDATE_PREF_NAME, Context.MODE_PRIVATE)?.edit()
+            ?.putLong(
+                Constants.LAST_UPDATE_DATE,
+                Date().time
+            )?.apply()
+    }
+
+    private fun needRefreshData(): Boolean {
+        val lastUpdate =
+            (context?.getSharedPreferences(Constants.LAST_UPDATE_PREF_NAME, Context.MODE_PRIVATE)
+                ?.getLong(Constants.LAST_UPDATE_DATE, 0) ?: 0)
+        val now = Date().time
+        return TimeUnit.MILLISECONDS.toMinutes(now - lastUpdate) > Constants.LAST_UPDATE_THRESHOLD
     }
 }
