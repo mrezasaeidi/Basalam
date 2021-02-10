@@ -5,7 +5,7 @@ import com.basalam.storage.repository.remote.entity.ProductQuery
 import com.basalam.storage.repository.remote.entity.ProductResponse
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Response
+import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Body
@@ -13,7 +13,7 @@ import retrofit2.http.POST
 
 interface ProductWebService {
     @POST("/api/user")
-    fun getProducts(@Body body: ProductQuery): Response<ProductResponse>
+    fun getProducts(@Body body: ProductQuery): Call<ProductResponse>
 
     companion object {
         operator fun invoke(): ProductWebService {

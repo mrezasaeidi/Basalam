@@ -14,4 +14,8 @@ class ProductViewModel(application: Application) : AndroidViewModel(application)
     fun getProductsLive(): LiveData<List<ProductModel>> {
         return productRepository.getProducts()
     }
+
+    fun refreshProducts() {
+        productRepository.refreshProducts()
+    }
 }
